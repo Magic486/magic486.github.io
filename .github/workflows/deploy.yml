@@ -1,0 +1,40 @@
+name: Deploy Hexo Blog
+
+on:
+  push:
+    branches:
+      - main # 监控的分支：这里填你存放源码的分支名，可能是 main 或 master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 把代码拉取到虚拟机
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      # 2. 安装 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # 推荐使用较新的 LTS 版本
+
+      # 3. 安装 Hexo 和依赖
+      - name: Install Dependencies
+        run: |
+          npm install -g hexo-cli
+          npm install
+
+      # 4. 生成静态文件 (相当于你在本地敲 hexo g)
+      - name: Build Hexo
+        run: hexo generate
+
+      # 5. 把生成的文件推送到 gh-pages 分支
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3 # 这是一个在大名鼎鼎的第三方 Action
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub 自动生成的令牌，无需手动设置
+          publish_dir: ./public # Hexo 生成文件的目录
+          publish_branch: gh-pages # 推送到哪个分支，通常是 gh-pages
+          commit_message: ${{ github.event.head_commit.message }}
