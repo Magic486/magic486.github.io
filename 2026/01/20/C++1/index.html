@@ -1,0 +1,325 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>异常处理 | 我吃马铃薯</title><meta name="author" content="叶落"><meta name="copyright" content="叶落"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="异常处理概述程序终止1.执行正常结束而终止 2.程序执行中发生错误或特殊事件而终止（异常终止）• 可预测的错误• 用户自己定义的错误• 难以预测的错误 异常处理（exception handling）机制的基本思想• 采用结构化方法对程序的运行时错误进行显式管理： 1.处理的是可预料的错误或特殊事件 2.将程序中的正常处理代码与异常处理代码显式区别开来，提高程序的可读性 C++语言中的异常处理抛出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="异常处理">
+<meta property="og:url" content="https://www.magic486.top/2026/01/20/C++1/index.html">
+<meta property="og:site_name" content="我吃马铃薯">
+<meta property="og:description" content="异常处理概述程序终止1.执行正常结束而终止 2.程序执行中发生错误或特殊事件而终止（异常终止）• 可预测的错误• 用户自己定义的错误• 难以预测的错误 异常处理（exception handling）机制的基本思想• 采用结构化方法对程序的运行时错误进行显式管理： 1.处理的是可预料的错误或特殊事件 2.将程序中的正常处理代码与异常处理代码显式区别开来，提高程序的可读性 C++语言中的异常处理抛出">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg">
+<meta property="article:published_time" content="2026-01-20T09:12:09.617Z">
+<meta property="article:modified_time" content="2026-01-20T09:12:09.617Z">
+<meta property="article:author" content="叶落">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "异常处理",
+  "url": "https://www.magic486.top/2026/01/20/C++1/",
+  "image": "https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg",
+  "datePublished": "2026-01-20T09:12:09.617Z",
+  "dateModified": "2026-01-20T09:12:09.617Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "叶落",
+      "url": "https://www.magic486.top/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/image/%E5%B8%A6%E5%AE%BD_%E7%88%B1%E7%BB%99%E7%BD%91_aigei_com.png"><link rel="canonical" href="https://www.magic486.top/2026/01/20/C++1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '异常处理',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/themes/butterfly/source/css/background.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/image/微信图片_20250227225824.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/assetsavatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">我吃马铃薯</span></a><a class="nav-page-title" href="/"><span class="site-name">异常处理</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">异常处理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-20T09:12:09.617Z" title="发表于 2026-01-20 17:12:09">2026-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-20T09:12:09.617Z" title="更新于 2026-01-20 17:12:09">2026-01-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="异常处理概述"><a href="#异常处理概述" class="headerlink" title="异常处理概述"></a>异常处理概述</h1><h2 id="程序终止"><a href="#程序终止" class="headerlink" title="程序终止"></a>程序终止</h2><p>1.执行正常结束而终止</p>
+<p>2.程序执行中发生错误或特殊事件而终止（异常终止）<br>• 可预测的错误<br>• 用户自己定义的错误<br>• 难以预测的错误</p>
+<h2 id="异常处理（exception-handling）机制的基本思想"><a href="#异常处理（exception-handling）机制的基本思想" class="headerlink" title="异常处理（exception handling）机制的基本思想"></a>异常处理（exception handling）机制的基本思想</h2><p>• 采用结构化方法对程序的运行时错误进行<strong>显式管理</strong>：</p>
+<p>1.处理的是可预料的错误或特殊事件 2.将程序中的正常处理代码与异常处理代码显式区别开来，提高程序的可<br>读性</p>
+<h2 id="C-语言中的异常处理"><a href="#C-语言中的异常处理" class="headerlink" title="C++语言中的异常处理"></a>C++语言中的异常处理</h2><p>抛出<strong>异常与异常处理</strong>分离的实现</p>
+<p><font color=red><strong>Try-Catch 执行机制</strong></font></p>
+<p>• 若程序有异常，则通过 throw 关键字创建一个异常对象，并抛出</p>
+<p>• 将可能抛出异常的程序段嵌在 try 块保护段之中，控制通过正常的顺序执行到达 try 块，然后执行 try 子块内的保护段</p>
+<p>• 如果在保护段执行期间没有引发异常，那么跟在 try 子块后的 catch 子句就不执行。<br>程序继续执行紧跟在 try 块中最后一个 catch 子句后面的语句</p>
+<p>• 如果有异常，catch 子句按其在 try 块后出现的顺序被检查。类型匹配的 catch 子句将捕获并处理异常（或继续抛出异常）</p>
+<p>• 如果找不到匹配的处理代码，则自动调用标准库函数 terminate，其默认功能是调用 abort( )终止程序</p>
+<h1 id="异常定义与抛出"><a href="#异常定义与抛出" class="headerlink" title="异常定义与抛出"></a>异常定义与抛出</h1><h2 id="throw-关键字"><a href="#throw-关键字" class="headerlink" title="throw 关键字"></a>throw 关键字</h2><figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">throw</span> 表达式; （<span class="number">1</span>）</span><br><span class="line"><span class="keyword">throw</span>； （<span class="number">2</span>）用于当前异常再抛出</span><br></pre></td></tr></table></figure>
+
+<p>• 表达式可以是任意类型的对象</p>
+<p>• throw 表达式； 操作的基本行为：</p>
+<ol>
+<li>复制被抛出的对象为临时对象，作为异常对象</li>
+<li>如果在当前函数 try 块中，则中止 try 执行，执行 catch 语句捕获</li>
+<li>如有异常对象未在当前函数被捕获处理，则中止函数执行，异常传播给调用者处理</li>
+</ol>
+<p>例：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cerrno&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">FILE * pf;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">pf = <span class="built_in">fopen</span> (<span class="string">&quot;unexist.txt&quot;</span>, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (pf == <span class="literal">NULL</span>) <span class="keyword">throw</span> errno;</span><br><span class="line"><span class="comment">// write something;</span></span><br><span class="line"><span class="built_in">fclose</span> (pf);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (<span class="type">int</span> errnum) &#123;</span><br><span class="line"><span class="keyword">if</span> (errnum!=<span class="number">2</span>) <span class="built_in">fclose</span> (pf);</span><br><span class="line"><span class="keyword">else</span> <span class="built_in">perror</span>(<span class="string">&quot;unexist.txt&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="异常基类-exception"><a href="#异常基类-exception" class="headerlink" title="异常基类 exception"></a>异常基类 exception</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">exception</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="built_in">exception</span> () <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="built_in">exception</span> (<span class="type">const</span> exception&amp;) <span class="keyword">noexcept</span>;</span><br><span class="line">exception&amp; <span class="keyword">operator</span>= (<span class="type">const</span> exception&amp;) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="keyword">virtual</span> ~<span class="built_in">exception</span>();</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">const</span> <span class="type">char</span>* <span class="title">what</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// bad_alloc example</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span> <span class="comment">// std::cout</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;new&gt;</span> <span class="comment">// std::bad_alloc</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="type">int</span>* myarray= <span class="keyword">new</span> <span class="type">int</span>[<span class="number">10000</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (std::bad_alloc&amp; ba)</span><br><span class="line">&#123;</span><br><span class="line">std::cerr &lt;&lt; <span class="string">&quot;bad_alloc caught: &quot;</span> &lt;&lt; ba.<span class="built_in">what</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// out_of_range example</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span> <span class="comment">// std::cerr</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdexcept&gt;</span> <span class="comment">// std::out_of_range</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span> <span class="comment">// std::vector</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">(<span class="type">void</span>)</span> </span>&#123;</span><br><span class="line"><span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">myvector</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">myvector.<span class="built_in">at</span>(<span class="number">20</span>)=<span class="number">100</span>; <span class="comment">// vector::at throws an out-of-range</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (<span class="type">const</span> std::out_of_range&amp; oor) &#123;</span><br><span class="line">std::cerr &lt;&lt; <span class="string">&quot;Out of Range error: &quot;</span> &lt;&lt; oor.<span class="built_in">what</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="异常的捕获及处理"><a href="#异常的捕获及处理" class="headerlink" title="异常的捕获及处理"></a>异常的捕获及处理</h1><p>异常处理语法结构</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">program-statements <span class="comment">//程序的正常处理逻辑</span></span><br><span class="line"><span class="keyword">throw</span> exception-object</span><br><span class="line">program-statements <span class="comment">//程序的正常处理逻辑</span></span><br><span class="line">…</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (exception-declaration) &#123;</span><br><span class="line">handler-statements <span class="comment">//异常处理代码</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (exception-declaration) &#123;</span><br><span class="line">handler-statements <span class="comment">//异常处理代码</span></span><br><span class="line">&#125;</span><br><span class="line">…</span><br><span class="line"><span class="built_in">catch</span> (…) &#123;</span><br><span class="line">handler-statements <span class="comment">//异常处理代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="异常捕获的匹配规则"><a href="#异常捕获的匹配规则" class="headerlink" title="异常捕获的匹配规则"></a>异常捕获的匹配规则</h2><p>1.try 期间发生异常； 2.按 catch 顺序与异常定义匹配<br>异常对象类型是定义类型或是定义类型的子类<br>• 匹配成功<br>• 异常接收变量是值，复制异常到接收变量<br>• 异常接收变量是引用或指针，创建引用和指针<br>• 清除当前异常，执行该异常处理块 3.直到匹配成功或结束<br><strong>要点：</strong><br>• <font color=red><strong>子类必须优先基类 catch，（…）必须是最后 catch</strong></font><br>• 用<strong>基类引用类型捕捉异常，且虚函数才能产生多态</strong></p>
+<h2 id="异常传播"><a href="#异常传播" class="headerlink" title="异常传播"></a>异常传播</h2><p>• 从异常抛出到控制转移给合适的异常处理语句的过程就叫做异常传播。</p>
+<p>• 异常传播过程（<font color=red><strong>一句话：当前函数未处理异常，则交给调用函数</strong></font>）：</p>
+<p>1.由里层向外层的执行每一个包围抛出点（异常被抛出的最初位置）的 try 语句。 2.如果当前的成员函数调用中没能定位异常处理，则调用终止。并且在该成员函数调用点将该异常抛给调用者，重复执行上一步。 3.如果该异常终止了当前线程或进程的所有成员函数调用，则说明该线程或进程中不存在对异常的处理，它将自行终止。</p>
+<h2 id="限定函数异常"><a href="#限定函数异常" class="headerlink" title="限定函数异常"></a>限定函数异常</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f3</span><span class="params">(<span class="type">int</span> x)</span> <span class="title">throw</span><span class="params">(<span class="type">double</span>,<span class="type">float</span>)</span> </span>&#123;</span><br><span class="line"><span class="keyword">switch</span> (x) &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">throw</span> <span class="number">3.4</span>; <span class="comment">// 抛出double型异常</span></span><br><span class="line"> <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">throw</span> <span class="number">2.5f</span>; <span class="comment">// 抛出float型异常</span></span><br><span class="line"> <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">throw</span> <span class="number">1</span>; <span class="comment">// 抛出int型异常</span></span><br><span class="line"> <span class="keyword">case</span> <span class="number">5</span>: <span class="keyword">throw</span> <span class="built_in">exception</span>(); <span class="comment">//抛出标准异常</span></span><br><span class="line"> &#125;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;End of f3&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="noexcept-关键字"><a href="#noexcept-关键字" class="headerlink" title="noexcept 关键字"></a>noexcept 关键字</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f2</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">noexcept</span> </span>&#123;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"><span class="built_in">f3</span>(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (<span class="type">int</span>) &#123; <span class="comment">//int型异常的处理代码</span></span><br><span class="line"> cout &lt;&lt; <span class="string">&quot;An int exception occurred!--from f2&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (<span class="type">float</span>) &#123; <span class="comment">//float型异常的处理代码</span></span><br><span class="line"> cout &lt;&lt; <span class="string">&quot;A float exception occurred!--from f2&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;End of f2&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>仅需说明是否允许抛出异常,有异常未处理，则立即调用 std::terminate</p>
+<h2 id="异常重新抛出"><a href="#异常重新抛出" class="headerlink" title="异常重新抛出"></a>异常重新抛出</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">catch</span> (MyException &amp;e) &#123;</span><br><span class="line">e.<span class="built_in">setMessage</span>(<span class="string">&quot;new message&quot;</span>);</span><br><span class="line"><span class="keyword">throw</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//修改被捕获的异常对象；导致传递到上层函数的MyException类型异常对象的数据成员message中所包含的字符串将变成“new message”</span></span><br><span class="line"><span class="built_in">catch</span> (MyException e) &#123;</span><br><span class="line">e.<span class="built_in">setMessage</span>(<span class="string">&quot;new message&quot;</span>);</span><br><span class="line"><span class="keyword">throw</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//修改被捕获异常对象的局部副本；传递到上层函数的MyException类型异常对象并不发生改变。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdexcept&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DerivedException</span> : <span class="keyword">public</span> runtime_error &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">DerivedException</span>() : <span class="built_in">runtime_error</span>(<span class="string">&quot;派生类异常&quot;</span>) &#123;&#125;</span><br><span class="line">    <span class="function"><span class="type">const</span> <span class="type">char</span>* <span class="title">what</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;我是派生类!&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">DerivedException</span>();</span><br><span class="line">    &#125; <span class="built_in">catch</span> (runtime_error e) &#123;</span><br><span class="line">        cout &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出什么：-&gt;”派生类异常”</p>
+<p><strong>对象切片（Object Slicing）：</strong> 1.当派生类对象被赋值给基类对象时（这里是按值捕获），会发生对象切片。即，只有基类部分被复制，派生类的部分被“切掉”。 2.因此，e 是一个 runtime_error 对象，而不是 DerivedException 对象。<br>3.e.what() 调用的是 runtime_error 的 what() 方法，而不是 DerivedException 的 what() 方法。</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>std::abort() 和 std::terminate() 都是用于异常终止程序的函数<br>简单粗暴 → abort()。<br>与异常系统集成 → terminate()</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>1.<strong>构造函数中的异常：</strong></p>
+<p>如果构造函数抛出异常，对象被视为未完全构造。</p>
+<p>C++ 会自动调用已构造的成员变量和基类的析构函数（栈展开的一部分），但不会调用当前类的析构函数（因为对象未完全构造）。</p>
+<p>2.<strong>析构函数的调用规则：</strong></p>
+<p>只有完全构造的对象才会在离开作用域时调用析构函数。</p>
+<p>对于部分构造的对象，已成功构造的子对象（成员变量、基类）会被析构，但当前对象的析构函数不会执行。</p>
+<p>3.<strong>动态内存的释放：</strong></p>
+<p>如果构造函数中动态分配了内存（如 new），但随后抛出异常，已分配的内存不会自动释放（除非使用智能指针或手动释放）。</p>
+<p>需要手动管理或在异常处理中释放资源。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.magic486.top">叶落</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.magic486.top/2026/01/20/C++1/">https://www.magic486.top/2026/01/20/C++1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.magic486.top" target="_blank">我吃马铃薯</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a></div><div class="post-share"><div class="social-share" data-image="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/20/eigth-blog/" title="排序"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">排序</div></div><div class="info-2"><div class="info-item-1">排序sort 函数ort 是 C++  库中的一个高效排序函数，基于 快速排序 或 内省排序 实现，平均时间复杂度 O(n log n) 默认升序排序（从小到大） 而实现其他排序方式可以自己编写一个函数 cmp 作为 sort 的第三个参数例： #include&lt;bits/stdc++.h&gt;using namespace std;struct di&#123;    int x;    int y;    int z;&#125;;bool cmp(di a,di b)&#123;    if(a.z&gt;b.z)&#123;        return 1;    &#125;    else&#123;        return 0;    &#125;&#125;double jl(di a,di b)&#123;    return sqrt(pow(a.x-b.x,2)+pow(a.y-b.y,2)+pow(a.z-b.z,2));&#125;int n;int main()&#123;    cin&gt;&gt;n;    struct di...</div></div></div></a><a class="pagination-related" href="/2026/01/20/ninth-blog/" title="继承和派生"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410144902.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">继承和派生</div></div><div class="info-2"><div class="info-item-1">继承&#x2F;派生的概念当定义一个新的类 B 时，如果发现类 B 拥有某个已写好的类 A 的全部特点，此外还有类 A 没有的特点，那么就不必从头重写类 B，而是可以把类 A 作为一个“基类”（也称“父类”），把类 B 写为基类 A 的一个“派生类”（也称“子类”）。这样，就可以说从类 A “派生”出了类 B，也可以说类 B “继承”了类 A。 派生类是通过对基类进行扩充和修改得到的。基类的所有成员自动成为派生类的成员。 语法与访问控制class 派生类名：继承访问控制 基类类名&#123;成员访问控制： 成员声明列表； ｝；  继承访问控制和成员访问控制均由保留 public、protected、private 来定义，缺省均为 private。private（私有的）public...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/01/20/first-blog/" title="初试C++ 1.0"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145107.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-20</div><div class="info-item-2">初试C++ 1.0</div></div><div class="info-2"><div class="info-item-1">初学 C++ io 流–输入&#x2F;输出操作符标头&lt; iostream &gt;•endl，输出 ‘\n’ 并冲洗输出流。例如：cout &lt;&lt; endl; •dec, hex, oct，更改用于整数输入&#x2F;输出的基数（进制） •left，right， 设置填充字符的布置，即左对齐或右对齐 •fixed，scientific，更改用于浮点 I&#x2F;O 的格式化 •showpoint，noshowpoint，控制浮点表示是否始终包含小数点 •showpos，noshowpos，控制是否将 + 号与非负数一同使用 标头&lt; iomanip &gt;• setw(n)，更改下个输入&#x2F;输出域的宽度，宽度为 n • setprecision(n)，更改浮点精度 代码示例/* iostream-format.cpp */#include&lt;iostream&gt;#include&lt;iomanip&gt;using namespace std;int main() &#123;double myFloat=123.4578;int...</div></div></div></a><a class="pagination-related" href="/2026/01/20/fith-blog/" title="数据抽象和类II"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225808.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-20</div><div class="info-item-2">数据抽象和类II</div></div><div class="info-2"><div class="info-item-1">数据抽象和类 IIC 与 C++动态对象（变量）管理堆（Heap）• 共享的对象（变量）空间• 由 stdlib 库管理 C必须 #include &lt;stdlib.h&gt;• 申请空间，void * malloc(size_t)• 释放空间，void free(void *) #include&lt;stdio.h&gt;#include&lt;stdlib.h&gt;typedef struct &#123; int x; int y; &#125; Point;int main() &#123;// 分配变量或一维可变数组Point *p1 = malloc(sizeof(Point) * 10);// 分配二维数组(n,m是常数)Point (*p2)[2][3] = malloc(sizeof(Point) * 6);// 分配数组的数组int n = 2, m = 3;Point **p3 = malloc(sizeof(Point *) * n);for (size_t i = 0; i &lt; n; i++)&#123;p3[i] =...</div></div></div></a><a class="pagination-related" href="/2026/01/20/ninth-blog/" title="继承和派生"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410144902.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-20</div><div class="info-item-2">继承和派生</div></div><div class="info-2"><div class="info-item-1">继承&#x2F;派生的概念当定义一个新的类 B 时，如果发现类 B 拥有某个已写好的类 A 的全部特点，此外还有类 A 没有的特点，那么就不必从头重写类 B，而是可以把类 A 作为一个“基类”（也称“父类”），把类 B 写为基类 A 的一个“派生类”（也称“子类”）。这样，就可以说从类 A “派生”出了类 B，也可以说类 B “继承”了类 A。 派生类是通过对基类进行扩充和修改得到的。基类的所有成员自动成为派生类的成员。 语法与访问控制class 派生类名：继承访问控制 基类类名&#123;成员访问控制： 成员声明列表； ｝；  继承访问控制和成员访问控制均由保留 public、protected、private 来定义，缺省均为 private。private（私有的）public...</div></div></div></a><a class="pagination-related" href="/2026/01/20/siventh-bolg/" title="运算符重载"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145107.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-20</div><div class="info-item-2">运算符重载</div></div><div class="info-2"><div class="info-item-1">运算符重载运算符重载的主要目的是：让运算符适用于自定义类型（类或结构体） 运算符重载概念运算符重载是具有特殊函数名的函数，也具有返回值类型，函数名和参数列表重载的运算符可以理解为带有特殊名称的函数，函数名是由关键字 operator 和其后要重载的运算符符号构成的。 重载的两种方法1.类成员函数运算符重载（类内定义）return_type class_name::operator op(operand2) &#123;&#125;重载二元运算符时，成员运算符函数只需显式传递一个参数（即二元运算符的右操作数），而左操作数则是该类对象本身，通过this指针隐式传递。 重载一元运算符时，成员运算符函数没有参数，操作数是该类对象本身，通过this指针隐式传递 2.友元函数运算符重载（类外定义）return_type operator op(operand1, operand2) &#123;&#125; 运算符重载至少需要一个操作数是用户定义的类型 MyClass operator+(MyClass a, int b);  // 合法（MyClass 是用户定义类型）int...</div></div></div></a><a class="pagination-related" href="/2026/01/20/second-blog/" title="初试C++ 2.0"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-20</div><div class="info-item-2">初试C++ 2.0</div></div><div class="info-2"><div class="info-item-1">初学 C++ string 类与操作初识类类是现实世界或抽象世界中概念，是关于同类事物定义的描述 在标准库中有很多类，通过以下类可体验与 C 语言的不同• &lt; string &gt;库中的std::string 类• 输入&#x2F;输出库中的 std::ifstream, std::ofstream 类 string 类 与 C 风格字符串C 风格字符串的缺点： 1.C 风格字符串是使用 null 字符 ‘\0’ 终止的一维字符数组。因而字符串定义时，必须事先知道保留多大空间存储字符串 2.在字符串操作，如 strcat，时要保证目标字符串有足够的空间 3.使用 malloc 动态空间处理字符串，对一般程序员来说太复杂，非常容易出现BUG 创建 stringstring s1;string s2 = &quot;c++&quot;;string s3 = s2;string s4 (5, &#x27;s&#x27;);//s4 初始化为 5 个 s  string 对象的运算string...</div></div></div></a><a class="pagination-related" href="/2026/01/20/test/" title="用于测试"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-20</div><div class="info-item-2">用于测试</div></div><div class="info-2"><div class="info-item-1">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试 </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/image/assetsavatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">叶落</div><div class="author-info-description">记录我的学习生涯</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Magic486/magic486.github.io"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://space.bilibili.com/1307872137/favlist?fid=2413649937&amp;ftype=create" target="_blank" title="b站"><i class="fab fa-bilibili" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">异常处理概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%BB%88%E6%AD%A2"><span class="toc-number">1.1.</span> <span class="toc-text">程序终止</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%EF%BC%88exception-handling%EF%BC%89%E6%9C%BA%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.</span> <span class="toc-text">异常处理（exception handling）机制的基本思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">C++语言中的异常处理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%AE%9A%E4%B9%89%E4%B8%8E%E6%8A%9B%E5%87%BA"><span class="toc-number">2.</span> <span class="toc-text">异常定义与抛出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#throw-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">2.1.</span> <span class="toc-text">throw 关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%9F%BA%E7%B1%BB-exception"><span class="toc-number">2.2.</span> <span class="toc-text">异常基类 exception</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">异常的捕获及处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E7%9A%84%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99"><span class="toc-number">3.1.</span> <span class="toc-text">异常捕获的匹配规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E4%BC%A0%E6%92%AD"><span class="toc-number">3.2.</span> <span class="toc-text">异常传播</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%90%E5%AE%9A%E5%87%BD%E6%95%B0%E5%BC%82%E5%B8%B8"><span class="toc-number">3.3.</span> <span class="toc-text">限定函数异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#noexcept-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">3.4.</span> <span class="toc-text">noexcept 关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E9%87%8D%E6%96%B0%E6%8A%9B%E5%87%BA"><span class="toc-number">3.5.</span> <span class="toc-text">异常重新抛出</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1"><span class="toc-number">4.1.</span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2"><span class="toc-number">4.2.</span> <span class="toc-text">2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3"><span class="toc-number">4.3.</span> <span class="toc-text">3</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/20/first-blog/" title="初试C++ 1.0"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145107.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="初试C++ 1.0"/></a><div class="content"><a class="title" href="/2026/01/20/first-blog/" title="初试C++ 1.0">初试C++ 1.0</a><time datetime="2026-01-20T09:12:09.617Z" title="发表于 2026-01-20 17:12:09">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/20/fith-blog/" title="数据抽象和类II"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225808.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据抽象和类II"/></a><div class="content"><a class="title" href="/2026/01/20/fith-blog/" title="数据抽象和类II">数据抽象和类II</a><time datetime="2026-01-20T09:12:09.617Z" title="发表于 2026-01-20 17:12:09">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/20/eigth-blog/" title="排序"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="排序"/></a><div class="content"><a class="title" href="/2026/01/20/eigth-blog/" title="排序">排序</a><time datetime="2026-01-20T09:12:09.617Z" title="发表于 2026-01-20 17:12:09">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/20/C++1/" title="异常处理"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="异常处理"/></a><div class="content"><a class="title" href="/2026/01/20/C++1/" title="异常处理">异常处理</a><time datetime="2026-01-20T09:12:09.617Z" title="发表于 2026-01-20 17:12:09">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/20/ninth-blog/" title="继承和派生"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410144902.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="继承和派生"/></a><div class="content"><a class="title" href="/2026/01/20/ninth-blog/" title="继承和派生">继承和派生</a><time datetime="2026-01-20T09:12:09.617Z" title="发表于 2026-01-20 17:12:09">2026-01-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By 叶落</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><div class="aplayer no-destroy" data-id="8502119137" data-server="netease" data-type="playlist" data-fixed="true"> </div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="ture" data-text="观天下之大" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
