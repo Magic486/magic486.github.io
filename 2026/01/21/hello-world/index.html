@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>博客更新日志 | 我吃马铃薯</title><meta name="author" content="叶落"><meta name="copyright" content="叶落"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="2.24博客部署 用hexo和butterfly搭建的个人博客，用于记录知识与学习经验，还在持续更新中 2.26鼓搞了音乐功能 3.3鼓搞了代码块高亮功能 3.4调整主题样式，添加友链 3.5增添评论 2026.01.20博客购买域名和 CDN 加速  网站构建和部署这一项 CSDN 等各个平台上都有详细的教程，在此便不再讲述，因此在此写出应用 butterfly 主题后的美化和常见问题 1.主题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客更新日志">
+<meta property="og:url" content="https://www.magic486.top/2026/01/21/hello-world/index.html">
+<meta property="og:site_name" content="我吃马铃薯">
+<meta property="og:description" content="2.24博客部署 用hexo和butterfly搭建的个人博客，用于记录知识与学习经验，还在持续更新中 2.26鼓搞了音乐功能 3.3鼓搞了代码块高亮功能 3.4调整主题样式，添加友链 3.5增添评论 2026.01.20博客购买域名和 CDN 加速  网站构建和部署这一项 CSDN 等各个平台上都有详细的教程，在此便不再讲述，因此在此写出应用 butterfly 主题后的美化和常见问题 1.主题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png">
+<meta property="article:published_time" content="2026-01-21T16:26:58.585Z">
+<meta property="article:modified_time" content="2026-01-21T16:26:58.585Z">
+<meta property="article:author" content="叶落">
+<meta property="article:tag" content="博客构建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "博客更新日志",
+  "url": "https://www.magic486.top/2026/01/21/hello-world/",
+  "image": "https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png",
+  "datePublished": "2026-01-21T16:26:58.585Z",
+  "dateModified": "2026-01-21T16:26:58.585Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "叶落",
+      "url": "https://www.magic486.top/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/image/%E5%B8%A6%E5%AE%BD_%E7%88%B1%E7%BB%99%E7%BD%91_aigei_com.png"><link rel="canonical" href="https://www.magic486.top/2026/01/21/hello-world/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '博客更新日志',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/themes/butterfly/source/css/background.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/image/微信图片_20250227225824.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/assetsavatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">我吃马铃薯</span></a><a class="nav-page-title" href="/"><span class="site-name">博客更新日志</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">博客更新日志</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T16:26:58.585Z" title="发表于 2026-01-22 00:26:58">2026-01-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T16:26:58.585Z" title="更新于 2026-01-22 00:26:58">2026-01-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="2-24"><a href="#2-24" class="headerlink" title="2.24"></a>2.24</h1><p><strong>博客部署</strong></p>
+<p>用<a href="#">hexo</a>和<a target="_blank" rel="noopener" href="https://butterfly.js.org/">butterfly</a>搭建的个人博客，用于记录知识与学习经验，还在持续更新中</p>
+<h1 id="2-26"><a href="#2-26" class="headerlink" title="2.26"></a>2.26</h1><p><strong>鼓搞了音乐功能</strong></p>
+<h1 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h1><p><strong>鼓搞了代码块高亮功能</strong></p>
+<h1 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h1><p><strong>调整主题样式，添加友链</strong></p>
+<h1 id="3-5"><a href="#3-5" class="headerlink" title="3.5"></a>3.5</h1><p><strong>增添评论</strong></p>
+<h1 id="2026-01-20"><a href="#2026-01-20" class="headerlink" title="2026.01.20"></a>2026.01.20</h1><p><strong>博客购买域名和 CDN 加速</strong></p>
+<hr>
+<h1 id="网站构建和部署"><a href="#网站构建和部署" class="headerlink" title="网站构建和部署"></a>网站构建和部署</h1><p>这一项 CSDN 等各个平台上都有详细的教程，在此便不再讲述，因此在此写出应用 butterfly 主题后的美化和常见问题</p>
+<h2 id="1-主题页面的美化"><a href="#1-主题页面的美化" class="headerlink" title="1.主题页面的美化"></a>1.主题页面的美化</h2><p>在这里插入主题图片</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">backgound:</span></span><br><span class="line"></span><br><span class="line"><span class="string">//如果为</span> <span class="attr">backgound_img:</span> <span class="string">则直接将其改为</span> <span class="attr">backgound:</span></span><br></pre></td></tr></table></figure>
+
+<p>将这些全部设为 transparent，意为透明</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">footer_img:</span> <span class="string">transparent</span></span><br><span class="line"><span class="attr">default_top_img:</span> <span class="string">transparent</span></span><br><span class="line"><span class="attr">index_img:</span> <span class="string">transparent</span></span><br></pre></td></tr></table></figure>
+
+<p>这时会有黑色半透遮罩,在这里调整即可</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">mask:</span></span><br><span class="line">  <span class="attr">header:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">footer:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>在文章的 md 文档里设置 front-matter 中的 top_img</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">top_img:</span> transparent</span><br></pre></td></tr></table></figure>
+
+<p>否则文章顶部会显示 cover 的图片</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.magic486.top">叶落</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.magic486.top/2026/01/21/hello-world/">https://www.magic486.top/2026/01/21/hello-world/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.magic486.top" target="_blank">我吃马铃薯</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8D%9A%E5%AE%A2%E6%9E%84%E5%BB%BA/">博客构建</a></div><div class="post-share"><div class="social-share" data-image="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/eigth-blog/" title="排序"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410144902.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">排序</div></div><div class="info-2"><div class="info-item-1">排序sort 函数ort 是 C++  库中的一个高效排序函数，基于 快速排序 或 内省排序 实现，平均时间复杂度 O(n log n) 默认升序排序（从小到大） 而实现其他排序方式可以自己编写一个函数 cmp 作为 sort 的第三个参数例： #include&lt;bits/stdc++.h&gt;using namespace std;struct di&#123;    int x;    int y;    int z;&#125;;bool cmp(di a,di b)&#123;    if(a.z&gt;b.z)&#123;        return 1;    &#125;    else&#123;        return 0;    &#125;&#125;double jl(di a,di b)&#123;    return sqrt(pow(a.x-b.x,2)+pow(a.y-b.y,2)+pow(a.z-b.z,2));&#125;int n;int main()&#123;    cin&gt;&gt;n;    struct di...</div></div></div></a><a class="pagination-related" href="/2026/01/21/C++1/" title="异常处理"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145107.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">异常处理</div></div><div class="info-2"><div class="info-item-1">异常处理概述程序终止1.执行正常结束而终止 2.程序执行中发生错误或特殊事件而终止（异常终止）• 可预测的错误• 用户自己定义的错误• 难以预测的错误 异常处理（exception handling）机制的基本思想• 采用结构化方法对程序的运行时错误进行显式管理： 1.处理的是可预料的错误或特殊事件 2.将程序中的正常处理代码与异常处理代码显式区别开来，提高程序的可读性 C++语言中的异常处理抛出异常与异常处理分离的实现 Try-Catch 执行机制 • 若程序有异常，则通过 throw 关键字创建一个异常对象，并抛出 • 将可能抛出异常的程序段嵌在 try 块保护段之中，控制通过正常的顺序执行到达 try 块，然后执行 try 子块内的保护段 • 如果在保护段执行期间没有引发异常，那么跟在 try 子块后的 catch 子句就不执行。程序继续执行紧跟在 try 块中最后一个 catch 子句后面的语句 • 如果有异常，catch 子句按其在 try 块后出现的顺序被检查。类型匹配的 catch 子句将捕获并处理异常（或继续抛出异常） •...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/01/21/%E5%8D%9A%E5%AE%A2%E8%B4%AD%E4%B9%B0%E5%9F%9F%E5%90%8D%E5%92%8CCDN%E5%8A%A0%E9%80%9F/" title="博客购买域名和CDN加速"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-22</div><div class="info-item-2">博客购买域名和CDN加速</div></div><div class="info-2"><div class="info-item-1">🚀 第一部分：核心部署流程 (Standard Procedure)一、 基础设施搭建 (域名与 CDN) 购买域名  平台：阿里云等。 推荐：.top 域名（首年便宜）。 状态：需完成实名认证&#x2F;备案。   Cloudflare 托管 DNS (接管解析权)  添加站点：在 Cloudflare 添加你的域名，选择 Free 计划。 修改 Nameservers：复制 Cloudflare 提供的两个 NS 地址 -&gt; 去阿里云控制台 -&gt; 修改 DNS 服务器 -&gt; 替换并保存。 等待生效：Cloudflare 邮件通知 “Status: Active” 即成功。   Cloudflare 解析与安全设置 (关键)  添加 CNAME 记录： @ -&gt; 你的用户名.github.io (开启小黄云 Proxy) www -&gt; 你的用户名.github.io (开启小黄云 Proxy)   **SSL 设置 (必做)**： 位置：SSL&#x2F;TLS -&gt; Overview。 设置：必须选 Full 或 **Full...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/image/assetsavatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">叶落</div><div class="author-info-description">记录我的学习生涯</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Magic486/magic486.github.io"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://space.bilibili.com/1307872137/favlist?fid=2413649937&amp;ftype=create" target="_blank" title="b站"><i class="fab fa-bilibili" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2-24"><span class="toc-number">1.</span> <span class="toc-text">2.24</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-26"><span class="toc-number">2.</span> <span class="toc-text">2.26</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-3"><span class="toc-number">3.</span> <span class="toc-text">3.3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-4"><span class="toc-number">4.</span> <span class="toc-text">3.4</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-5"><span class="toc-number">5.</span> <span class="toc-text">3.5</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2026-01-20"><span class="toc-number">6.</span> <span class="toc-text">2026.01.20</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E6%9E%84%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2"><span class="toc-number">7.</span> <span class="toc-text">网站构建和部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BB%E9%A2%98%E9%A1%B5%E9%9D%A2%E7%9A%84%E7%BE%8E%E5%8C%96"><span class="toc-number">7.1.</span> <span class="toc-text">1.主题页面的美化</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/first-blog/" title="初试C++ 1.0"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225808.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="初试C++ 1.0"/></a><div class="content"><a class="title" href="/2026/01/21/first-blog/" title="初试C++ 1.0">初试C++ 1.0</a><time datetime="2026-01-21T16:26:58.585Z" title="发表于 2026-01-22 00:26:58">2026-01-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/fith-blog/" title="数据抽象和类II"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250311204951.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据抽象和类II"/></a><div class="content"><a class="title" href="/2026/01/21/fith-blog/" title="数据抽象和类II">数据抽象和类II</a><time datetime="2026-01-21T16:26:58.585Z" title="发表于 2026-01-22 00:26:58">2026-01-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/eigth-blog/" title="排序"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410144902.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="排序"/></a><div class="content"><a class="title" href="/2026/01/21/eigth-blog/" title="排序">排序</a><time datetime="2026-01-21T16:26:58.585Z" title="发表于 2026-01-22 00:26:58">2026-01-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/hello-world/" title="博客更新日志"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客更新日志"/></a><div class="content"><a class="title" href="/2026/01/21/hello-world/" title="博客更新日志">博客更新日志</a><time datetime="2026-01-21T16:26:58.585Z" title="发表于 2026-01-22 00:26:58">2026-01-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/C++1/" title="异常处理"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145107.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="异常处理"/></a><div class="content"><a class="title" href="/2026/01/21/C++1/" title="异常处理">异常处理</a><time datetime="2026-01-21T16:26:58.585Z" title="发表于 2026-01-22 00:26:58">2026-01-22</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By 叶落</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><div class="aplayer no-destroy" data-id="8502119137" data-server="netease" data-type="playlist" data-fixed="true"> </div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="ture" data-text="观天下之大" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
