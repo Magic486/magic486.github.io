@@ -1,6 +1,7 @@
 ---
 title: 初试C++ 1.0
 tags: C++
+date: 2025-03-20
 top_img: transparent
 comments: false
 ---

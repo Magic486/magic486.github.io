@@ -1,6 +1,7 @@
 ---
 title: 博客购买域名和CDN加速
 tags: 博客构建
+date: 2026-01-20
 top_img: transparent
 comments: false
 ---
@@ -10,19 +11,16 @@ comments: false
 ### 一、 基础设施搭建 (域名与 CDN)
 
 1. **购买域名**
-
    - 平台：阿里云等。
    - 推荐：`.top` 域名（首年便宜）。
    - 状态：需完成实名认证/备案。
 
 2. **Cloudflare 托管 DNS (接管解析权)**
-
    - **添加站点**：在 Cloudflare 添加你的域名，选择 Free 计划。
    - **修改 Nameservers**：复制 Cloudflare 提供的两个 NS 地址 -> 去阿里云控制台 -> 修改 DNS 服务器 -> 替换并保存。
    - **等待生效**：Cloudflare 邮件通知 "Status: Active" 即成功。
 
 3. **Cloudflare 解析与安全设置 (关键)**
-
    - **添加 CNAME 记录**：
      - `@` -> `你的用户名.github.io` (开启小黄云 Proxy)
      - `www` -> `你的用户名.github.io` (开启小黄云 Proxy)
@@ -34,12 +32,10 @@ comments: false
 ### 二、 自动化流水线配置 (CI/CD)
 
 1. **开启 GitHub 权限**
-
    - 位置：仓库 Settings -> Actions -> General -> Workflow permissions。
    - 操作：勾选 **Read and write permissions** -> Save。
 
 2. **创建 Workflow 脚本**
-
    - 路径：`.github/workflows/deploy.yml`
    - 内容：(复制下方标准代码)
 
@@ -98,13 +94,11 @@ comments: false
 ### 三、 绑定 GitHub Pages
 
 1. **设置 Pages 源**
-
    - 位置：仓库 Settings -> Pages -> Build and deployment。
    - **Source**: Deploy from a branch。
    - **Branch**: 选择 **`gh-pages`** (注意：不是 main)。
 
 2. **绑定自定义域名**
-
    - **Custom domain**: 填入 `www.你的域名.top`。
    - **Enforce HTTPS**: 勾选。
 

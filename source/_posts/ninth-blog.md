@@ -1,6 +1,7 @@
 ---
 title: 继承和派生
 tags: C++
+date: 2025-03-20
 top_img: transparent
 comments: false
 ---
