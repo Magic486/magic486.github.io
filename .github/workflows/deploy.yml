@@ -10,15 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 把代码拉取到虚拟机
+     # 1. 修改：把代码拉取到虚拟机
       - name: Checkout source
         uses: actions/checkout@v4
-
-      # 2. 安装 Node.js 环境
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: "20" # 推荐使用较新的 LTS 版本
+          fetch-depth: 0  # <---【关键点1】改成 0，表示拉取全部历史记录
+
+      # 2. 新增：恢复文件的修改时间
+      - name: Restore Timestamps
+        uses: chetan/git-restore-mtime-action@v2  # <---【关键点2】使用这个插件根据 Git 记录恢复时间
 
       # 3. 安装 Hexo 和依赖
       - name: Install Dependencies
