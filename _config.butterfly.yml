@@ -87,7 +87,7 @@ footer_img: transparent
 
 # Website Background
 # Can set it to color or image url
-background: /image/微信图片_20250227225824.jpg
+background: /image/背景图.jpg
 
 cover:
   # Disable the cover or not
@@ -97,13 +97,12 @@ cover:
   # When cover is not set, the default cover is displayed
   default_cover:
     # - xxx.jpg
-    - /image/微信图片_20250227225808.jpg
-    - /image/微信图片_20250227225819.jpg
-    - /image/微信图片_20250227225830.jpg
-    - /image/微信图片_20250311204951.jpg
-    - /image/微信图片_20250410144902.jpg
-    - /image/微信图片_20250410145107.jpg
-    - /image/微信图片_20250410145115.png
+    - /image/文章封面1.jpg
+    - /image/文章封面2.jpg
+    - /image/文章封面3.jpg
+    - /image/文章封面4.jpg
+    - /image/文章封面5.jpg
+    - /image/文章封面6.jpg
 
 # Replace Broken Images
 error_img:
@@ -120,7 +119,7 @@ post_meta:
   # Home Page
   page:
     # Choose: created / updated / both
-    date_type: both
+    date_type: created
     # Choose: date / relative
     date_format: date
     categories: true
@@ -130,7 +129,7 @@ post_meta:
     # Choose: left / center
     position: left
     # Choose: created / updated / both
-    date_type: both
+    date_type: created
     # Choose: date / relative
     date_format: date
     categories: true
