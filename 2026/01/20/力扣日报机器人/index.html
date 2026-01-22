@@ -1,0 +1,326 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>力扣刷题日报机器人 | 我吃马铃薯</title><meta name="author" content="叶落"><meta name="copyright" content="叶落"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目原理：利用 GitHub 免费服务器，每天定时抓取好友的力扣总做题数，与昨天的数据对比计算“今日新增”，并把排名战报发到企业微信群。  第一步：准备企业微信机器人 在电脑上打开你要推送消息的企业微信群。 点击右上角 ... -&gt; 添加群机器人 -&gt; 新创建一个机器人。 起个名字（比如：刷题监督员），点击添加。 【重要】 复制生成的 Webhook 地址（格式是 https:&#x2F;&#x2F;qy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="力扣刷题日报机器人">
+<meta property="og:url" content="https://www.magic486.top/2026/01/20/%E5%8A%9B%E6%89%A3%E6%97%A5%E6%8A%A5%E6%9C%BA%E5%99%A8%E4%BA%BA/index.html">
+<meta property="og:site_name" content="我吃马铃薯">
+<meta property="og:description" content="项目原理：利用 GitHub 免费服务器，每天定时抓取好友的力扣总做题数，与昨天的数据对比计算“今日新增”，并把排名战报发到企业微信群。  第一步：准备企业微信机器人 在电脑上打开你要推送消息的企业微信群。 点击右上角 ... -&gt; 添加群机器人 -&gt; 新创建一个机器人。 起个名字（比如：刷题监督员），点击添加。 【重要】 复制生成的 Webhook 地址（格式是 https:&#x2F;&#x2F;qy">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png">
+<meta property="article:published_time" content="2026-01-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-22T11:52:56.000Z">
+<meta property="article:author" content="叶落">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "力扣刷题日报机器人",
+  "url": "https://www.magic486.top/2026/01/20/%E5%8A%9B%E6%89%A3%E6%97%A5%E6%8A%A5%E6%9C%BA%E5%99%A8%E4%BA%BA/",
+  "image": "https://www.magic486.top/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png",
+  "datePublished": "2026-01-20T16:00:00.000Z",
+  "dateModified": "2026-01-22T11:52:56.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "叶落",
+      "url": "https://www.magic486.top/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/image/%E5%B8%A6%E5%AE%BD_%E7%88%B1%E7%BB%99%E7%BD%91_aigei_com.png"><link rel="canonical" href="https://www.magic486.top/2026/01/20/%E5%8A%9B%E6%89%A3%E6%97%A5%E6%8A%A5%E6%9C%BA%E5%99%A8%E4%BA%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '力扣刷题日报机器人',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/themes/butterfly/source/css/background.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/image/微信图片_20250227225824.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/assetsavatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">我吃马铃薯</span></a><a class="nav-page-title" href="/"><span class="site-name">力扣刷题日报机器人</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">力扣刷题日报机器人</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-20T16:00:00.000Z" title="发表于 2026-01-21 00:00:00">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-22T11:52:56.000Z" title="更新于 2026-01-22 19:52:56">2026-01-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p><strong>项目原理</strong>：利用 GitHub 免费服务器，每天定时抓取好友的力扣总做题数，与昨天的数据对比计算“今日新增”，并把排名战报发到企业微信群。</p>
+<hr>
+<h2 id="第一步：准备企业微信机器人"><a href="#第一步：准备企业微信机器人" class="headerlink" title="第一步：准备企业微信机器人"></a>第一步：准备企业微信机器人</h2><ol>
+<li>在电脑上打开你要推送消息的<strong>企业微信群</strong>。</li>
+<li>点击右上角 <code>...</code> -&gt; <code>添加群机器人</code> -&gt; <code>新创建一个机器人</code>。</li>
+<li>起个名字（比如：<code>刷题监督员</code>），点击添加。</li>
+<li><strong>【重要】</strong> 复制生成的 <strong>Webhook 地址</strong>（格式是 <code>https://qyapi.weixin.qq.com/...</code>），保存好，后面要用。</li>
+</ol>
+<hr>
+<h2 id="第二步：准备代码文件"><a href="#第二步：准备代码文件" class="headerlink" title="第二步：准备代码文件"></a>第二步：准备代码文件</h2><p>在电脑桌面上新建一个文件夹，里面新建两个文本文件，分别命名为 <code>main.py</code> 和 <code>requirements.txt</code>。</p>
+<h3 id="文件-1：main-py-完整代码"><a href="#文件-1：main-py-完整代码" class="headerlink" title="文件 1：main.py (完整代码)"></a>文件 1：<code>main.py</code> (完整代码)</h3><p><em>请将下面的代码完整复制进去。唯一需要修改的是 <code>FRIEND_LIST</code> 里的用户 ID。</em></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="comment"># 好友列表：请填入力扣主页 URL 中的 ID</span></span><br><span class="line"><span class="comment"># 例如: https://leetcode.cn/u/bu-huo-m/ -&gt; ID 是 bu-huo-m</span></span><br><span class="line">FRIEND_LIST = [</span><br><span class="line">    <span class="string">&quot;XXX&quot;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 历史数据存储文件</span></span><br><span class="line">HISTORY_FILE = <span class="string">&quot;history.json&quot;</span></span><br><span class="line"><span class="comment"># 从 GitHub 环境变量获取 Webhook</span></span><br><span class="line">WEBHOOK_URL = os.environ.get(<span class="string">&quot;WECOM_WEBHOOK&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_total_solved</span>(<span class="params">user_slug</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;获取用户刷题总数 (无需 Cookie)&quot;&quot;&quot;</span></span><br><span class="line">    url = <span class="string">&quot;https://leetcode.cn/graphql/&quot;</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    query = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    query userQuestionProgress($userSlug: String!) &#123;</span></span><br><span class="line"><span class="string">      userProfileUserQuestionProgress(userSlug: $userSlug) &#123;</span></span><br><span class="line"><span class="string">        numAcceptedQuestions &#123;</span></span><br><span class="line"><span class="string">          count</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        resp = requests.post(url, headers=headers, json=&#123;</span><br><span class="line">            <span class="string">&quot;operationName&quot;</span>: <span class="string">&quot;userQuestionProgress&quot;</span>,</span><br><span class="line">            <span class="string">&quot;variables&quot;</span>: &#123;<span class="string">&quot;userSlug&quot;</span>: user_slug&#125;,</span><br><span class="line">            <span class="string">&quot;query&quot;</span>: query</span><br><span class="line">        &#125;, timeout=<span class="number">10</span>)</span><br><span class="line">        data = resp.json()</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;data&#x27;</span> <span class="keyword">in</span> data <span class="keyword">and</span> data[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;userProfileUserQuestionProgress&#x27;</span>]:</span><br><span class="line">            questions = data[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;userProfileUserQuestionProgress&#x27;</span>][<span class="string">&#x27;numAcceptedQuestions&#x27;</span>]</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">sum</span>(q[<span class="string">&#x27;count&#x27;</span>] <span class="keyword">for</span> q <span class="keyword">in</span> questions)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Error fetching <span class="subst">&#123;user_slug&#125;</span>: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_history</span>():</span><br><span class="line">    <span class="keyword">if</span> os.path.exists(HISTORY_FILE):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(HISTORY_FILE, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                <span class="keyword">return</span> json.load(f)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_history</span>(<span class="params">data</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(HISTORY_FILE, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        json.dump(data, f, indent=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_wechat_msg</span>(<span class="params">markdown_text</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> WEBHOOK_URL:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;❌ 未配置 Webhook，跳过发送&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;markdown&quot;</span>,</span><br><span class="line">        <span class="string">&quot;markdown&quot;</span>: &#123;<span class="string">&quot;content&quot;</span>: markdown_text&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    requests.post(WEBHOOK_URL, json=data, headers=headers)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    history = load_history()</span><br><span class="line">    new_history = &#123;&#125;</span><br><span class="line">    report_data = []</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;🚀 开始获取数据...&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> user <span class="keyword">in</span> FRIEND_LIST:</span><br><span class="line">        current_total = get_total_solved(user)</span><br><span class="line">        <span class="keyword">if</span> current_total <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            last_total = history.get(user, current_total)</span><br><span class="line">            delta = current_total - last_total</span><br><span class="line">            report_data.append(&#123;</span><br><span class="line">                <span class="string">&quot;User&quot;</span>: user,</span><br><span class="line">                <span class="string">&quot;Total&quot;</span>: current_total,</span><br><span class="line">                <span class="string">&quot;Delta&quot;</span>: delta</span><br><span class="line">            &#125;)</span><br><span class="line">            new_history[user] = current_total</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot; - <span class="subst">&#123;user&#125;</span>: <span class="subst">&#123;current_total&#125;</span> (新增 <span class="subst">&#123;delta&#125;</span>)&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            new_history[user] = history.get(user, <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot; - <span class="subst">&#123;user&#125;</span>: 获取失败&quot;</span>)</span><br><span class="line"></span><br><span class="line">    save_history(new_history)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> report_data:</span><br><span class="line">        df = pd.DataFrame(report_data)</span><br><span class="line">        df = df.sort_values(by=[<span class="string">&quot;Delta&quot;</span>, <span class="string">&quot;Total&quot;</span>], ascending=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取北京时间</span></span><br><span class="line">        bj_time = datetime.datetime.utcnow() + datetime.timedelta(hours=<span class="number">8</span>)</span><br><span class="line">        now_str = bj_time.strftime(<span class="string">&#x27;%m-%d %H:%M&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        md_text = <span class="string">f&quot;# 🏆 算法小分队战报\n&quot;</span></span><br><span class="line">        md_text += <span class="string">f&quot;📅 统计时间：<span class="subst">&#123;now_str&#125;</span>\n&quot;</span></span><br><span class="line">        md_text += <span class="string">f&quot;&gt; 今日全员累计新增：**<span class="subst">&#123;<span class="built_in">sum</span>(df[<span class="string">&#x27;Delta&#x27;</span>])&#125;</span>** 题\n\n&quot;</span></span><br><span class="line"></span><br><span class="line">        rank = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> _, row <span class="keyword">in</span> df.iterrows():</span><br><span class="line">            <span class="keyword">if</span> row[<span class="string">&#x27;Delta&#x27;</span>] &gt; <span class="number">0</span>:</span><br><span class="line">                delta_str = <span class="string">f&quot;&lt;font color=\&quot;warning\&quot;&gt;+<span class="subst">&#123;row[<span class="string">&#x27;Delta&#x27;</span>]&#125;</span>&lt;/font&gt;&quot;</span></span><br><span class="line">                icon = <span class="string">&quot;🔥&quot;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                delta_str = <span class="string">&quot;+0&quot;</span></span><br><span class="line">                icon = <span class="string">&quot;😴&quot;</span></span><br><span class="line">            md_text += <span class="string">f&quot;**No.<span class="subst">&#123;rank&#125;</span> <span class="subst">&#123;row[<span class="string">&#x27;User&#x27;</span>]&#125;</span>** <span class="subst">&#123;icon&#125;</span>\n&quot;</span></span><br><span class="line">            md_text += <span class="string">f&quot;└ 总刷题：`<span class="subst">&#123;row[<span class="string">&#x27;Total&#x27;</span>]&#125;</span>`  今日：<span class="subst">&#123;delta_str&#125;</span>\n\n&quot;</span></span><br><span class="line">            rank += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        md_text += <span class="string">&quot;--------\n💪 *每天进步一点点，坚持就是胜利！*&quot;</span></span><br><span class="line">        send_wechat_msg(md_text)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件-2：requirements-txt"><a href="#文件-2：requirements-txt" class="headerlink" title="文件 2：requirements.txt"></a>文件 2：<code>requirements.txt</code></h3><p><em>里面只需要写这几个字母，用于告诉服务器安装必要的库。</em></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">requests</span><br><span class="line">pandas</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="第三步：上传-GitHub-并配置密钥"><a href="#第三步：上传-GitHub-并配置密钥" class="headerlink" title="第三步：上传 GitHub 并配置密钥"></a>第三步：上传 GitHub 并配置密钥</h2><ol>
+<li><strong>创建仓库</strong>：登录 GitHub，点击右上角 <code>+</code> -&gt; <code>New repository</code>，起个名字（例如 <code>leetcode-daily</code>），选择 <strong>Private</strong>（私有）或 Public 都可以，点击创建。</li>
+<li><strong>上传代码</strong>：点击 <code>uploading an existing file</code>，把刚才的 <code>main.py</code> 和 <code>requirements.txt</code> 拖进去，点击 <code>Commit changes</code>。</li>
+<li><strong>配置机器人链接</strong>：<ul>
+<li>点击仓库上方的 <code>Settings</code> (设置)。</li>
+<li>左侧栏点击 <code>Secrets and variables</code> -&gt; <code>Actions</code>。</li>
+<li>点击 <code>New repository secret</code> (绿色按钮)。</li>
+<li><strong>Name</strong> 填：<code>WECOM_WEBHOOK</code> (必须一模一样，全大写)。</li>
+<li><strong>Secret</strong> 填：第一步里复制的那个企业微信机器人链接。</li>
+<li>点击 <code>Add secret</code>。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="第四步：设置自动运行"><a href="#第四步：设置自动运行" class="headerlink" title="第四步：设置自动运行"></a>第四步：设置自动运行</h2><p>注：github action的脚本自动运行会有大概二十分钟的延迟</p>
+<ol>
+<li>点击仓库上方的 <code>Actions</code> 标签。</li>
+<li>点击 <code>set up a workflow yourself</code>。</li>
+<li>把原来的代码全删掉，复制粘贴下面的配置：</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Daily</span> <span class="string">Algorithm</span> <span class="string">Rank</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">    <span class="comment"># 每天北京时间 23:00 运行 (GitHub是UTC时间，15:00 UTC = 23:00 北京)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">&#x27;0 15 * * *&#x27;</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span> <span class="comment"># 允许手动点按钮测试</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">run-monitor:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 【重要】赋予写权限，用于保存历史数据</span></span><br><span class="line">    <span class="attr">permissions:</span></span><br><span class="line">      <span class="attr">contents:</span> <span class="string">write</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/setup-python@v4</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">python-version:</span> <span class="string">&#x27;3.9&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">pip</span> <span class="string">install</span> <span class="string">-r</span> <span class="string">requirements.txt</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">script</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="comment"># 读取刚才配置的机器人密钥</span></span><br><span class="line">        <span class="attr">WECOM_WEBHOOK:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.WECOM_WEBHOOK</span> <span class="string">&#125;&#125;</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">python</span> <span class="string">main.py</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Commit</span> <span class="string">and</span> <span class="string">Push</span> <span class="string">History</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        git config --global user.name &quot;GitHub Action Bot&quot;</span></span><br><span class="line"><span class="string">        git config --global user.email &quot;action@github.com&quot;</span></span><br><span class="line"><span class="string">        git add history.json || true</span></span><br><span class="line"><span class="string">        if git diff --staged --quiet; then</span></span><br><span class="line"><span class="string">          echo &quot;No changes to history&quot;</span></span><br><span class="line"><span class="string">        else</span></span><br><span class="line"><span class="string">          git commit -m &quot;Update daily stats [skip ci]&quot;</span></span><br><span class="line"><span class="string">          git push</span></span><br><span class="line"><span class="string">        fi</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>点击右上角 <code>Commit changes</code> 保存。</li>
+</ol>
+<hr>
+<h2 id="第五步：开启写权限"><a href="#第五步：开启写权限" class="headerlink" title="第五步：开启写权限"></a>第五步：开启写权限</h2><p>为了让机器人能保存每天的数据（不然每次运行完数据就丢了），必须做这一步：</p>
+<ol>
+<li>点击仓库上方的 <code>Settings</code>。</li>
+<li>左侧点击 <code>Actions</code> -&gt; <code>General</code>。</li>
+<li>拉到最下面找到 <strong>Workflow permissions</strong>。</li>
+<li>选中 <strong>Read and write permissions</strong> (读写权限)。</li>
+<li>点击 <code>Save</code>。</li>
+</ol>
+<hr>
+<h2 id="完成后如何验证？"><a href="#完成后如何验证？" class="headerlink" title="完成后如何验证？"></a>完成后如何验证？</h2><ol>
+<li>点击 <code>Actions</code> 标签。</li>
+<li>点击左侧的 <code>Daily Algorithm Rank</code>。</li>
+<li>点击右侧的 <code>Run workflow</code> 按钮 -&gt; 绿色 <code>Run workflow</code>。</li>
+<li>等待约 30 秒，你的企业微信群就会收到第一条战报！</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.magic486.top">叶落</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.magic486.top/2026/01/20/%E5%8A%9B%E6%89%A3%E6%97%A5%E6%8A%A5%E6%9C%BA%E5%99%A8%E4%BA%BA/">https://www.magic486.top/2026/01/20/%E5%8A%9B%E6%89%A3%E6%97%A5%E6%8A%A5%E6%9C%BA%E5%99%A8%E4%BA%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.magic486.top" target="_blank">我吃马铃薯</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a></div><div class="post-share"><div class="social-share" data-image="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/01/19/%E5%8D%9A%E5%AE%A2%E8%B4%AD%E4%B9%B0%E5%9F%9F%E5%90%8D%E5%92%8CCDN%E5%8A%A0%E9%80%9F/" title="博客购买域名和CDN加速"><img class="cover" src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">博客购买域名和CDN加速</div></div><div class="info-2"><div class="info-item-1">🚀 第一部分：核心部署流程 (Standard Procedure)一、 基础设施搭建 (域名与 CDN) 购买域名  平台：阿里云等。 推荐：.top 域名（首年便宜）。 状态：需完成实名认证&#x2F;备案。   Cloudflare 托管 DNS (接管解析权)  添加站点：在 Cloudflare 添加你的域名，选择 Free 计划。 修改 Nameservers：复制 Cloudflare 提供的两个 NS 地址 -&gt; 去阿里云控制台 -&gt; 修改 DNS 服务器 -&gt; 替换并保存。 等待生效：Cloudflare 邮件通知 “Status: Active” 即成功。   Cloudflare 解析与安全设置 (关键)  添加 CNAME 记录： @ -&gt; 你的用户名.github.io (开启小黄云 Proxy) www -&gt; 你的用户名.github.io (开启小黄云 Proxy)   **SSL 设置 (必做)**： 位置：SSL&#x2F;TLS -&gt; Overview。 设置：必须选 Full 或 **Full...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/image/assetsavatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">叶落</div><div class="author-info-description">记录我的学习生涯</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Magic486/magic486.github.io"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://space.bilibili.com/1307872137/favlist?fid=2413649937&amp;ftype=create" target="_blank" title="b站"><i class="fab fa-bilibili" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%87%86%E5%A4%87%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="toc-number">1.</span> <span class="toc-text">第一步：准备企业微信机器人</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%87%86%E5%A4%87%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">第二步：准备代码文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6-1%EF%BC%9Amain-py-%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">2.1.</span> <span class="toc-text">文件 1：main.py (完整代码)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6-2%EF%BC%9Arequirements-txt"><span class="toc-number">2.2.</span> <span class="toc-text">文件 2：requirements.txt</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E4%B8%8A%E4%BC%A0-GitHub-%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%AF%86%E9%92%A5"><span class="toc-number">3.</span> <span class="toc-text">第三步：上传 GitHub 并配置密钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%8A%A8%E8%BF%90%E8%A1%8C"><span class="toc-number">4.</span> <span class="toc-text">第四步：设置自动运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5%EF%BC%9A%E5%BC%80%E5%90%AF%E5%86%99%E6%9D%83%E9%99%90"><span class="toc-number">5.</span> <span class="toc-text">第五步：开启写权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%88%90%E5%90%8E%E5%A6%82%E4%BD%95%E9%AA%8C%E8%AF%81%EF%BC%9F"><span class="toc-number">6.</span> <span class="toc-text">完成后如何验证？</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/20/%E5%8A%9B%E6%89%A3%E6%97%A5%E6%8A%A5%E6%9C%BA%E5%99%A8%E4%BA%BA/" title="力扣刷题日报机器人"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="力扣刷题日报机器人"/></a><div class="content"><a class="title" href="/2026/01/20/%E5%8A%9B%E6%89%A3%E6%97%A5%E6%8A%A5%E6%9C%BA%E5%99%A8%E4%BA%BA/" title="力扣刷题日报机器人">力扣刷题日报机器人</a><time datetime="2026-01-20T16:00:00.000Z" title="发表于 2026-01-21 00:00:00">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/19/%E5%8D%9A%E5%AE%A2%E8%B4%AD%E4%B9%B0%E5%9F%9F%E5%90%8D%E5%92%8CCDN%E5%8A%A0%E9%80%9F/" title="博客购买域名和CDN加速"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225819.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客购买域名和CDN加速"/></a><div class="content"><a class="title" href="/2026/01/19/%E5%8D%9A%E5%AE%A2%E8%B4%AD%E4%B9%B0%E5%9F%9F%E5%90%8D%E5%92%8CCDN%E5%8A%A0%E9%80%9F/" title="博客购买域名和CDN加速">博客购买域名和CDN加速</a><time datetime="2026-01-19T16:00:00.000Z" title="发表于 2026-01-20 00:00:00">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/08/sixth-blog/" title="无标题"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410144902.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无标题"/></a><div class="content"><a class="title" href="/2025/04/08/sixth-blog/" title="无标题">无标题</a><time datetime="2025-04-08T08:57:37.067Z" title="发表于 2025-04-08 16:57:37">2025-04-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/first-blog/" title="初试C++ 1.0"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250410145115.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="初试C++ 1.0"/></a><div class="content"><a class="title" href="/2025/03/19/first-blog/" title="初试C++ 1.0">初试C++ 1.0</a><time datetime="2025-03-19T16:00:00.000Z" title="发表于 2025-03-20 00:00:00">2025-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/fith-blog/" title="数据抽象和类II"><img src="/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250227225808.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据抽象和类II"/></a><div class="content"><a class="title" href="/2025/03/19/fith-blog/" title="数据抽象和类II">数据抽象和类II</a><time datetime="2025-03-19T16:00:00.000Z" title="发表于 2025-03-20 00:00:00">2025-03-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By 叶落</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><div class="aplayer no-destroy" data-id="8502119137" data-server="netease" data-type="playlist" data-fixed="true"> </div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="ture" data-text="观天下之大" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
