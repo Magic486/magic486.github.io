@@ -78,7 +78,7 @@ comments: false
 #### 插件设置里面找不到gitee
 
 通常是由于 PicGo 无法正确调用 npm 路径，或者是国内访问 npm 官方源的网络延迟导致的
-![image.png](https://gitee.com/magic486/note/raw/master/20260205225410565.png)
+![image.png](https://cdn.jsdelivr.net/gh/magic486/note/20260206002923648.png)
 ==解决方法==
 
 通过命令行手动安装插件
