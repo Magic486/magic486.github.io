@@ -8,4 +8,4 @@ comments: false
 
 
 
-![[test-1.png]]
+![test-1](https://gitee.com/magic486/note/raw/master/image/picgo_upload_1777373781675.png)
